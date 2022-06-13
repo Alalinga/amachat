@@ -2,23 +2,24 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const server = require('http').createServer(app)
-const {Server, Socket} =require('socket.io')
+const {Server} =require('socket.io')
+const bodyParser = require('body-parser')
 const PORT = 5000 || process.env.PORT
 const io = new Server(server)
+//const chatRouter = require('./routes/chatRouters')(io)
+const {ioModule,chatRouter} = require('./routes/chatRouters')
+const { chat } = require('./chats/chat')
 
+ioModule(io)
+chat(io)
 app.use(express.static(path.join(__dirname,'public')))
-// app.get('/',(req,res)=>{
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 
-//     res.sendFile(__dirname + '/public/index.html')
-// });
+app.use('/api',chatRouter)
+    
 
-io.on('connection',(socket)=>{
-    console.log('User connected')
-
-    socket.on('send chat',(msg)=>{
-        io.emit('chat message', msg)
-    })
-})
 
 server.listen(PORT,()=>{
     console.log(`Server litening on port http://localhost:${PORT}`);
