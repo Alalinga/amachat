@@ -9,17 +9,25 @@ const io = new Server(server)
 //const chatRouter = require('./routes/chatRouters')(io)
 const {ioModule,chatRouter} = require('./routes/chatRouters')
 const { chat } = require('./chats/chat')
+const { networkInterfaces } = require('os')
 
-ioModule(io)
-chat(io)
+
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.use('/api',chatRouter)
-    
-
+io.use((socket,next)=>{
+    const username = socket.handshake.auth.username;
+    if(!username){
+        return next(new Error('Please provide a valid username'))
+    }
+    socket.username = username;
+    next();
+})    
+ioModule(io)
+chat(io)
 
 server.listen(PORT,()=>{
     console.log(`Server litening on port http://localhost:${PORT}`);
