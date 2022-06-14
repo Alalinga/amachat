@@ -1,18 +1,19 @@
 const express = require("express");
-const {addUser,getUser, messageFormat} = require("../utils/user");
-const chatRouter = express.Router()
+const { User} = require("../utils/user");
+const chatRouter = express.Router();
 
+const user = new User()
 const ioModule = io=>{
     io.on('connection', (socket)=>{
 
         socket.on('disconnect',(message)=>{
-            io.emit('chat message',messageFormat('user','left the chat'))
+            io.emit('chat message',user.messageFormat('user','left the chat'))
         });
         //send and receive chat
         chatRouter.get('/chat',(req,res)=>{
             // res.send('ok').status(200)
             socket.on('send chat',(msg)=>{
-                io.emit('chat message', messageFormat('admin',msg))
+                io.emit('chat message', user.messageFormat('admin',msg))
                 res.send(msg).status(200)
            })
         });
@@ -32,7 +33,7 @@ const ioModule = io=>{
        })
 
        socket.on('groupChat',({user,group})=>{
-        const userJoin = addUser(socket.id,user,group)
+        const userJoin = user.addUser(socket.id,user,group)
         socket.join(userJoin.group)
         console.log('some has join',socket.id,userJoin)
 
