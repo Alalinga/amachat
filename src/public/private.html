@@ -1,158 +1,65 @@
-
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="css/chat.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Amacha App</title>
-  </head>
-  <body>
-<div class="menu">
-    <div class="back"><i class="fa fa-chevron-left"></i> <img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-    <div class="name">Alex</div>
-    <div class="last">18:09</div>
-</div>
-<ol class="chat">
+<html>
+<title>Amacha App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/chat.css" />
+<link rel="stylesheet" href="css/style.css" />
 
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p>Hola!</p>
-<p>Te vienes a cenar al centro? <emoji class="pizza"/></p>
-<time>20:17</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>Puff...</p>
-<p>Aún estoy haciendo el contexto de Góngora... <emoji class="books"/></p>
-<p>Mejor otro día</p>
-<time>20:18</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p>Qué contexto de Góngora? <emoji class="suffocated"/></p>
-<time>20:18</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>El que mandó Marialu</p>
-<p>Es para mañana...</p>
-<time>20:18</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p><emoji class="scream"/></p>
-<p>Pásamelo! <emoji class="please"/></p>
-<time>20:18</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<img src="https://i.imgur.com/QAROObc.jpg" draggable="false"/>
-<time>20:19</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p>Gracias! <emoji class="hearth_blue"/></p>
-<time>20:20</time>
-</div>
-</li>
-<div class="day">Hoy</div>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>Te apetece jugar a Minecraft?</p>
-<time>18:03</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p>Venga va, hace ya mucho que no juego...</p>
-<time>18:07</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>Ehh, me crashea el Launcher... <emoji class="cryalot"/></p>
-<time>18:08</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-<p><emoji class="lmao"/></p>
-<time>18:08</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>Es broma</p>
-<p>Ataque Moai!</p>
-<p><span><emoji class="moai"/></span><span><emoji class="moai"/></span><span><emoji class="moai"/></span><span><emoji class="moai"/></span><span><emoji class="moai"/></span><span><emoji class="moai"/></span></p>
-<time>18:09</time>
-</div>
-</li>
-<li class="other">
-<div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-<div class="msg">
-  <p>Copón</p>
-<p><emoji class="funny"/></p>
-<time>18:08</time>
-</div>
-</li>
-<li class="self">
-<div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-<div class="msg">
-<p>Hey there's a new update about this chat UI with more responsive elements! Check it now:</p>
-<p><a href="https://codepen.io/Varo/pen/YPmwpQ" target="parent">Chat UI 2.0</a></p>
-<time>18:09</time>
-</div>
-</li>
+<body>
 
-</ol>
-<div class="chat-form-container">
-    <form id="form">
-      <input
-        id="input"
-        type="text"
-        placeholder="Enter Message"
-        required
-        autocomplete="off"
-      />
-      <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-    </form>
+  <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px; background-color: #d9534f;" id="mySidebar">
+    <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+    <h3 style="text-align: center;"><i class="fas fa-user"></i> Users</h3>
+    <ul id="users-list">
+      
+    </ul>
   </div>
-<!-- <input class="textarea" type="text" placeholder="Type here!"/><div class="emojis"></div> -->
 
-<script
-      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
-      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <!-- <script src="js/main.js"></script> -->
-  </body>
+  <div class="w3-main" style="margin-left:200px; ">
+    <div class="w3-teal" style="background-color: #d9534f;">
+      
+      <div class="w3-container" >
+        <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+        <div class="back"><i class="fa fa-chevron-left"></i> <img src="https://i.imgur.com/DY6gND0.png"
+            draggable="false" /></div>
+        <div class="name">Alex</div>
+        <div class="last">18:09</div>
+      </div>
+    </div>
+
+    <div class="w3-container">
+
+      <ol class="chat" id="chat">
+        
+        <div class="day">Hoy</div>
+        
+
+      </ol>
+      <div class="chat-form-container">
+        <form id="form">
+          <input id="input" type="text" placeholder="Enter Message" required autocomplete="off" />
+          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+    integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module"  src="js/private.js"></script>
+
+  <script>
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+  </script>
+
+</body>
+
 </html>
