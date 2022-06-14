@@ -17,11 +17,27 @@ a{
 /* M E N U */
 
 .menu {
-    position: fixed;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 70%;
+    height: 50px;
+    background: #d9534f;
+    padding: 10px;
+    z-index: 100;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+/* .menu {
+    position: absolute;
     top: 0px;
     left: 0px;
     right: 0px;
-    width: 100%;
+    width: 70%;
+    
     height: 50px;
     background: #d9534f;
     z-index: 100;
@@ -29,9 +45,9 @@ a{
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-}
+} */
 
-.back {
+/* .back {
     position: absolute;
     width: 90px;
     height: 50px;
@@ -42,9 +58,9 @@ a{
     font-size: 30px;
     padding-left: 10px;
     cursor: pointer;
-}
+} */
 .back img {
-    position: absolute;
+    /* position: absolute; */
     top: 5px;
     left: 30px;
     width: 40px;
@@ -60,7 +76,7 @@ a{
     background: rgba(255,255,255,0.2);
 }
 .name{
-    position: absolute;
+    /* position: absolute; */
     top: 3px;
     left: 110px;
     font-family: 'Lato';
@@ -70,7 +86,7 @@ a{
     cursor: default;
 }
 .last{
-    position: absolute;
+    /* position: absolute; */
     top: 30px;
     left: 115px;
     font-family: 'Lato';
