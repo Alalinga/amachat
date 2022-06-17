@@ -62,13 +62,23 @@ class User {
     getAllUsers() {
         return this.allUsers
     }
-    addOneOnOneChats(data) {
+    //adding one-on-one chats on sending 
+    addSenOneOnOneChats(data) {
         const chats = this.oneONoneChats.find(chat => chat.chatId == data.chatId)
         if (chats !== undefined) {
-            return chats.messages.push(data.message)
+            return chats.myChats.push(data.message)
         }
         return this.oneONoneChats.push(data)
     }
+    //adding one-on-one chat on receiving
+    addRecOneOnOneChats(data) {
+        const chats = this.oneONoneChats.find(chat => chat.chatId == data.chatId)
+        if (chats !== undefined) {
+            return chats.friendChats.push(data.message)
+        }
+        return this.oneONoneChats.push(data)
+    }
+    //getting one-on-one chat by id
     getOneOnOneChat(chatId) {
         return this.oneONoneChats.find(chat => chat.chatId === chatId)
     }
