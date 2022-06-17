@@ -28,7 +28,8 @@ class User {
     oneOnoneMessageFormat() {
         return {
             chatId,
-            messages: []
+            myChats:[],
+            friendChats:[]
         }
     }
 
