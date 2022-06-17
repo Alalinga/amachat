@@ -7,8 +7,40 @@
 <link rel="stylesheet" href="css/style.css" />
 
 <body>
+  <div class="main-container">
+    <header class="chat-header">
+      <button class="btnclose" onclick="_open()">open</button>
+      <h1><i class="fas fa-smile"></i> Amachat</h1>
+    </header>
 
-  <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px; background-color: #d9534f;" id="mySidebar">
+    <div class="chat-main" id="chat-main">
+      <div class="chat-sidebar" id="sidebar">
+        <h3 style="text-align:center;"><i class="fas fa-users"></i> Users</h3>
+        <ul id="users-list"></ul>
+      </div>
+      <div class="container">
+        <div class="chat-container">
+          <ol class="chat" id="chat">
+
+
+
+          </ol>
+        </div>
+
+        <div class="chat-form-container">
+          <form id="form">
+            <input id="input" type="text" placeholder="Enter Message" required autocomplete="off" />
+            <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+          </form>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <!-- <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px; background-color: #d9534f;" id="mySidebar">
     <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
     <h3 style="text-align: center;"><i class="fas fa-user"></i> Users</h3>
     <ul id="users-list">
@@ -33,7 +65,6 @@
       <ol class="chat" id="chat">
         
         <div class="day">Hoy</div>
-        
 
       </ol>
       <div class="chat-form-container">
@@ -44,15 +75,17 @@
       </div>
     </div>
 
-  </div>
+  </div> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
     integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="module"  src="js/private.js"></script>
 
   <script>
-    function w3_open() {
-      document.getElementById("mySidebar").style.display = "block";
+    function _open() {
+      document.getElementById("chat-main").style.display = "flex";
+      document.getElementById("sidebar").style.display = "block";
+  
     }
 
     function w3_close() {
