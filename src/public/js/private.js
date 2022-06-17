@@ -1,6 +1,6 @@
 import socket from "./connection.js";
 //const { socket } = require("./connection");
-
+const USERS = []
 const sendButton = document.getElementById('form');
 const input = document.getElementById('input');
 const userList = document.getElementById('users-list');
@@ -12,13 +12,23 @@ const URL = window.location.origin;
 const { username, type, to } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
 
+/* functions declarations */
 const getCurrentUser = (user, id) => {
     return user.find(u => u.userId === id)
 }
+function onUserSelectListerner(sender, receiver) {
+    if (!receiver) return;
+    console.log('start chat',{sender,receiver})
+    return socket.emit('select user', { sender, receiver })
+}
+
+const getTime =()=>{
+    const date = new Date()
+    return date.getHours()+':'+date.getMinutes()
+}
 //display users
 const displayUsers = (users) => {
-    //console.log(users)
-    const userlist = `${users.map(user => `<li class='group-list'><a href='${URL}/private.html?username=${username}&to=${user.userName}&type=private?'>${user.userName}<a> </li>`).join('')}`
+    const userlist = `${users.map(user => `<li class='group-list' onclick="onUserSelectListerner(this)"><a href='${URL}/private.html?username=${username}&to=${user.userName}&type=private?'>${user.userName}<a> </li>`).join('')}`
     userList.innerHTML = userlist
 }
 
@@ -26,35 +36,69 @@ const displayMyChats = (chats) => {
 
     const list = document.createElement('li');
     list.classList.add('self');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p>${chats}<emoji class="pizza" /></p><time>20:17</time></div>`
+    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats}</p><time>${getTime()}</time></div>`
     list.innerHTML = chat
     privateChats.appendChild(list);
     window.scrollTo(0, privateChats.scrollHeight)
 }
 const displayFriendChats = (chats) => {
-    console.log(chats)
     const list = document.createElement('li');
     list.classList.add('other');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p>${chats}<emoji class="pizza" /></p><time>20:17</time></div>`
+    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats.message}</p><time>${chats.time}</time></div>`
     list.innerHTML = chat
     privateChats.appendChild(list);
     window.scrollTo(0, privateChats.scrollHeight)
 
 }
 
-//get users from server site
-socket.on('users', (users) => {
-    // const cUser = getCurrentUser(users, socket.id)
-    // users = users.splice(users.indexOf(cUser), 1)
-    displayUsers(users)
-
-})
-/* functions declarations */
 
 // return home function
 const home = () => {
     return window.location.href = 'index.html';
 }
+
+const sendPrivateChat = (username, message) => {
+    const chatId = localStorage.getItem('roomId')
+    return socket.emit('privateChat', { to: username, message: message,chatId: chatId})
+}
+
+
+// receiving message from private chat
+const getPrivateChat = (innersocket) => {
+    innersocket.on('privateMessage', (msg) => {
+        displayFriendChats(msg)
+    });
+}
+function toggleSidebar(e) {
+    e.preventDefault()
+    document.getElementById('sidebar').style.display = 'block';
+}
+const navigator = (username, type, to) => {
+    if (!username || !type) {
+        return home()
+    }
+    if (username && type) {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            socket.auth = { userId };
+        } else {
+            socket.auth = { username };
+        }
+
+    }
+    onUserSelectListerner(username, to)
+
+    return socket.connect()
+}
+/** Socket events listerners */
+
+//After user been connect listen for user data and store it to localStorage and add userId to socket auth
+socket.on('userInfo', (user) => {
+    const userId = user.userId
+    socket.auth = { userId }
+    localStorage.setItem('userId', userId)
+    // socket.userId =userId;
+})
 
 // send message to private chat
 /* 
@@ -64,36 +108,42 @@ const home = () => {
    on first chat store username,userId,
    on subsequent chat, retrieve messages (advance)
    */
-const sendPrivateChat = (username, message) => {
-    return socket.emit('privateChat', { to: username, message: message })
-}
 
-// receiving message from private chat
-const getPrivateChat = (innersocket) => {
-    innersocket.on('privateMessage', (msg) => {
-        displayFriendChats(msg.message)
-    });
-}
+
 socket.on('privateMessage', (msg) => {
+    console.log(msg)
     displayFriendChats(msg.message)
 });
 
-const onUserSelectListerner = (username) => {
-    isUserSelected = true;
-    socket.auth = { username };
-    socket.connect()
-}
+//get users from server site
+socket.on('users', (users) => {
+    users.forEach(user => {
+        if(USERS.find(u=>u.userId ===user.userId) ===undefined) USERS.push(user)
+    });
+    // console.log('connected users',users)
+    // displayUsers(users)
+    displayUsers(USERS)
+});
+socket.on('user connected',(user)=>{
+    if(USERS.find(u=>u.userId ===user.userId) ===undefined){
+        USERS.push(user)
+    }
+    displayUsers(USERS)
+    // userList.innerHTML +=`<li class='group-list' onclick="onUserSelectListerner(this)"><a href='${URL}/private.html?username=${username}&to=${user.username}&type=private?'>${user.username}<a> </li>`
+})
+
+
+socket.on('room created',(roomId)=>{
+    localStorage.setItem('roomId',roomId)
+
+})
 
 
 /* functions call */
+navigator(username, type, to)
 
+//at first entry connect user using username 
 
-// on page load chech if user is on the right page 
-if (!username || !type) {
-    home()
-} else {
-    onUserSelectListerner(username)
-}
 
 //getPrivateChat(socket)
 
@@ -106,7 +156,8 @@ sendButton.addEventListener('submit', (e) => {
     displayMyChats(input.value)
     input.value = '';
     input.focus()
-})
+});
+
 
 
 class PrivateChat {
@@ -121,9 +172,10 @@ class PrivateChat {
         });
     }
 
-    sendPrivateChat(username, message) {
-        return socket.emit('privateChat', { to: username, message: message })
-    }
+    // sendPrivateChat(username, message) {
+
+    //     return socket.emit('privateChat', { to: username, message: message })
+    // }
 
     home() {
         return window.location.href = 'index.html';
