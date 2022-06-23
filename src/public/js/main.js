@@ -6,6 +6,7 @@ const input = document.getElementById('input');
 let messages = document.getElementById('messages');
 const group_Members = document.getElementById('users');
 const chatList = document.getElementById('chat');
+const groupName = document.getElementById('room-name')
 
 const { username, group } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
@@ -94,16 +95,17 @@ socket.on('message', (msg) => {
 
 socket.on('joinAlert', (message) => {
     // alert(message.user+' '+message.message)
-    groupMenbers(message.user)
+    displaydisplayGroupMenbers(message.user)
 
 });
 socket.on('joinMembers', (members) => {
-    groupMenbers(members.users)
+    groupName.innerHTML = members.group
+    displayGroupMenbers(members.users)
 
 });
 
 
-const groupMenbers = (members) => {
+const displayGroupMenbers = (members) => {
     // const id = localStorage.getItem('userId');
     // const u = members.find(user=>user.userId===id);
     // console.log('Bfore',members)
