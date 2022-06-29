@@ -19,13 +19,13 @@
 body {
 	font-family: 'Roboto', sans-serif;
 	min-height: 100vh;
-  
-    margin: 0 auto;
+	/* max-width: 400px; */
+	margin: 0 auto;
 	font-size: 16px;
-	
-	/* background: var(--light-color); */
-	
-	height: 100%; 
+	/* background-color: #5cb85c; */
+	background: var(--light-color);
+	/* margin: 20px;*/
+	height: 100%;
 }
 
 ul {
@@ -46,28 +46,57 @@ a {
 }
 
 /* Chat Page */
-
-.main-container{
-	display: flex;
-	flex-direction: column;
+.main-container {
 	width: 80%;
-	margin:auto;
+	margin: auto;
 }
+
 .container {
-	width: 78%;
+	width: 100%;
 	background: #fff;
 	margin: 5px auto;
 	height: 600px;
 	overflow: hidden;
 }
 
-.chat-container{
-	height: 95%;
+.chat-container {
+	height: 85%;
 
 }
+
 .chat-form-container {
 	height: 5%;
-	background-color: var(--dark-color-a);
+	/* position: absolute; */
+	/* float: right; */
+	/* bottom: 0px; */
+	/* left: 0px; */
+	/* right: 0px; */
+	/* width: 100%; */
+	/* height: 50px; */
+	/* z-index: 99; */
+	/* background: #fafafa; */
+	/* border: none; */
+	/* outline: none; */
+	/* padding-left: 55px;
+	padding-right: 55px; */
+	/* color: #666;
+	font-weight: 400; */
+
+	/* padding: 20px 30px; */
+	/* background-color: var(--dark-color-a); */
+}
+
+.chat-form-container form {
+	display: flex;
+	height: 100%;
+}
+
+.chat-form-container input[type='text'] {
+	font-size: 16px;
+	padding: 5px;
+	height: 100%;
+	width: 90%;
+	flex: 1;
 }
 
 .chat-header {
@@ -83,16 +112,15 @@ a {
 
 .chat-main {
 	height: 100%;
-	display: flex;
+	display: grid;
 	grid-template-columns: 1fr 3fr;
 }
 
 .chat-sidebar {
-	width: 20%;
 	background: var(--dark-color-b);
 	color: #fff;
-	/* padding: 20px 20px 60px; */
-	/* overflow-y: scroll; */
+	padding: 20px 20px 60px;
+	overflow-y: scroll;
 }
 
 .chat-sidebar h2 {
@@ -136,20 +164,6 @@ a {
 	color: #777;
 }
 
-
-
-.chat-form-container form {
-	display: flex;
-	height: 100%;
-}
-
-.chat-form-container input[type='text'] {
-	font-size: 16px;
-	padding: 5px;
-	height: 100%;
-	width: 90%;
-	flex: 1;
-}
 
 /* Join Page */
 .join-container {
@@ -203,6 +217,8 @@ a {
 	width: 100%;
 }
 
+*/
+
 /* button design */
 .homeButtons {
 	/* display: inline-block;
@@ -215,10 +231,7 @@ a {
 
 }
 
-.btnclose{
-	display: none;
-}
-.homeButtons button {
+/* .homeButtons button {
 	display: inline-block;
 	padding: 1rem 1rem;
 	vertical-align: middle;
@@ -227,14 +240,11 @@ a {
 }
 #users-list{
 	text-align: center;
-}
+} */
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;
 		
-	}
-	.container{
-		width: 100%;
 	}
 
 	.chat-sidebar {
