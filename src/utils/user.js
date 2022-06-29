@@ -8,16 +8,17 @@ const { getDate } = require('./date');
 
 class User {
     constructor() {
-        this.date = getDate()
-        this.allUsers = []
-        this.user = []
+        this.date = getDate();
+        this.allUsers = [];
+        this.user = [];
         this.privateChat_Users = [];
         this.oneONoneChats = [];
         this.oneOneOneroomId = [];
     }
 
-    privateChatMessageFormat(message, to, from) {
+    privateChatMessageFormat(chatId,message, to, from) {
         return {
+            chatId,
             message,
             to,
             from,
@@ -25,11 +26,11 @@ class User {
             time: this.date.time
         }
     }
-    oneOnoneMessageFormat() {
+    oneOnoneMessageFormat(chatId,myChats,friendChats) {
         return {
             chatId,
-            myChats:[],
-            friendChats:[]
+            myChats,
+            friendChats
         }
     }
 
@@ -66,15 +67,16 @@ class User {
     addSenOneOnOneChats(data) {
         const chats = this.oneONoneChats.find(chat => chat.chatId == data.chatId)
         if (chats !== undefined) {
-            return chats.myChats.push(data.message)
+            return chats.myChats.push(data.myChats[0])
         }
         return this.oneONoneChats.push(data)
     }
     //adding one-on-one chat on receiving
     addRecOneOnOneChats(data) {
+
         const chats = this.oneONoneChats.find(chat => chat.chatId == data.chatId)
         if (chats !== undefined) {
-            return chats.friendChats.push(data.message)
+            return chats.friendChats.push(data.friendChats[0])
         }
         return this.oneONoneChats.push(data)
     }
@@ -91,5 +93,8 @@ class User {
         this.oneOneOneroomId.push(room)
         return room
     }
+    getAllPrivateChats(){
+        return this.oneONoneChats
+    }
 }
-module.exports = { User }
+module.exports= {User}
