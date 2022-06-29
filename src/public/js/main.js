@@ -6,6 +6,7 @@ const input = document.getElementById('input');
 let messages = document.getElementById('messages');
 const group_Members = document.getElementById('users');
 const chatList = document.getElementById('chat');
+const chatBody = document.getElementById('chatBody')
 const groupName = document.getElementById('room-name')
 
 const { username, group } = Qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -32,6 +33,7 @@ if (username && group) {
     socket.emit('joinGroup', { username, group });
     
 } else {
+    localStorage.clear()
     window.location.href = 'index.html';
 }
 
@@ -43,6 +45,7 @@ const displayMyChats = (chats) => {
     list.innerHTML = chat
     chatList.appendChild(list);
     window.scrollTo(0, chatList.scrollHeight)
+    window.scrollTo(0,chatBody.scrollHeight)
 }
 const displayFriendChats = (chats) => {
     console.log(chats)
@@ -52,7 +55,7 @@ const displayFriendChats = (chats) => {
     list.innerHTML = chat
     chatList.appendChild(list);
     window.scrollTo(0, chatList.scrollHeight)
-
+    window.scrollTo(0,chatBody.scrollHeight)
 }
 
 
