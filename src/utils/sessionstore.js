@@ -1,10 +1,10 @@
 // const sessionstore = require("sessionstore");
 class SessionStore {
-    getSession(id) {}
-    saveSession(id, session) {}
-    getAllSessions() {}
-  }
-class StoreSessions extends SessionStore{
+    getSession(id) { }
+    saveSession(id, session) { }
+    getAllSessions() { }
+}
+class StoreSessions extends SessionStore {
     constructor() {
         super()
         this.session = new Map()
@@ -24,4 +24,4 @@ class StoreSessions extends SessionStore{
 
 }
 
-module.exports = {StoreSessions}
+module.exports = { StoreSessions }
