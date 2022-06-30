@@ -20,8 +20,7 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
-//ioModule(io)
+//ioModule(io) variables api url  url = ''
 app.use('', chatRouter)
 io.use((socket, next) => {
 
