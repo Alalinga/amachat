@@ -1,5 +1,6 @@
 const { StoreSessions } = require("../utils/sessionstore");
-const { User } = require("../utils/user")
+const { User } = require("../utils/user");
+const {formater} = require("../utils/messageformat")
 
 const userInteface = new User();
 const sessionStore = new StoreSessions()
@@ -36,22 +37,23 @@ function chat(io) {
 
 
          // When a user joins a group
-        socket.on('joinGroup', (msg) => {
-            const userInfo = { username: msg.username, group: msg.group, userId: socket.userId }
+        socket.on('joinGroup', (user) => {
+            const userInfo = { username: user.username, group: user.group, userId: socket.userId }
             //add to gruop members
-            userInteface.addUserToGroup(userInfo)
+            userInteface.addUserToGrouptest(user.group,userInfo)
             //join the group
-            socket.join(msg.group)
+            socket.join(user.group)
 
             // emit or send all group members to the user
-            io.to(msg.group).emit('joinMembers', { group: msg.group, users: userInteface.getGroupUsers(msg.group) })
+            io.to(user.group).emit('joinMembers', { group: user.group, users: userInteface.getGroupUsers(user.group) })
 
             //When a user send a message in the group
             socket.on('sendChat', (message) => {
                 //emit the message sent by everyone to everyone in the group 
                 //NOTE:(for personal clarification)  this emit simply means the server is kind of broadcasting the message sent by a user to anyone connected withen the group
                 if (message && msg.username) {
-                    socket.broadcast.to(msg.group).emit('message', userInteface.messageFormat(msg.username, socket.userId, message))
+                    socket.broadcast.to(msg.group).emit('message', formater.messageFormat(msg.username, socket.userId, message))
+                    
                 }
 
             })
@@ -77,14 +79,14 @@ function chat(io) {
 
                 //add chat to sender chat records
                 chatId = socket.userId + '' + data.receiver.userId;
-                userInteface.addSenOneOnOneChats(userInteface.oneOnoneMessageFormat(chatId, [{ message: data.message, date: data.date }], []))
+                userInteface.addSenOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [{ message: data.message, date: data.date }], []))
 
                 // add chat to receiver chat records 
                 //NOTE: at reciver end the chatId is the receiver Id plus the sender Id
                 chatId = data.receiver.userId + '' + socket.userId;
-                userInteface.addRecOneOnOneChats(userInteface.oneOnoneMessageFormat(chatId, [], [{ message: data.message, date: data.date }]))
+                userInteface.addRecOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [], [{ message: data.message, date: data.date }]))
                 // emit or send message to reciever 
-                socket.to(data.receiver.userId).emit('privateMessage', userInteface.privateChatMessageFormat(data.chatId, data.message, data.receiver, from))
+                socket.to(data.receiver.userId).emit('privateMessage', formater.privateChatMessageFormat(data.chatId, data.message, data.receiver, from))
             })
         })
 
