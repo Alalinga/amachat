@@ -1,6 +1,6 @@
 const { StoreSessions } = require("../utils/sessionstore");
 const { User } = require("../utils/user");
-const {formater} = require("../utils/messageformat")
+const { formater } = require("../utils/messageformat")
 
 const userInteface = new User();
 const sessionStore = new StoreSessions()
@@ -36,31 +36,35 @@ function chat(io) {
         })
 
 
-         // When a user joins a group
-        socket.on('joinGroup', (user) => {
+        // When a user joins a group
+        socket.on('joinGroup', async (user) => {
             const userInfo = { username: user.username, group: user.group, userId: socket.userId }
             //add to gruop members
-            userInteface.addUserToGrouptest(user.group,userInfo)
+            //    const resp =  userInteface.addUserToGroup({username:user.username,groupId:user.group})
+
             //join the group
-            socket.join(user.group)
+            const checkUser = await userInteface.getUserFromGroup(user.group, user.username);
+            if (checkUser.status === 200) {
+                socket.join(user.group)
 
-            // emit or send all group members to the user
-            io.to(user.group).emit('joinMembers', { group: user.group, users: userInteface.getGroupUsers(user.group) })
-
-            //When a user send a message in the group
-            socket.on('sendChat', (message) => {
-                //emit the message sent by everyone to everyone in the group 
-                //NOTE:(for personal clarification)  this emit simply means the server is kind of broadcasting the message sent by a user to anyone connected withen the group
-                if (message && msg.username) {
-                    socket.broadcast.to(msg.group).emit('message', formater.messageFormat(msg.username, socket.userId, message))
-                    
-                }
-
-            })
-
+                // emit or send all group members to the user
+                const groupUsers =  await userInteface.getGroupUsers(user.group);
+                io.to(user.group).emit('joinMembers', groupUsers.response)
+                
+                //When a user send a message in the group
+                socket.on('sendChat', (message) => {
+                    //emit the message sent by anyone to everyone in the group 
+                    //NOTE:(for personal clarification)  this emit simply means the server is kind of broadcasting the message sent by a user to anyone connected withen the group
+                    if (message && user.username) {
+                        socket.broadcast.to(user.group).emit('message', formater.messageFormat(user.username, socket.userId, message))
+                    }
+                })
+            } else {
+                return socket.emit('error', checkUser)
+            }
         });
 
-        socket.on('selected-user', (user) => {
+        socket.on('selected-user', async (user) => {
             // If user is not selected throw an error
             if (!user.receiver) {
                 return socket.emit('error', new Error({ NoUserError: 'oops!! error occured. Make sure you have selected a user and try again' }))
@@ -71,22 +75,27 @@ function chat(io) {
             //create an id (sender Id plus receiver Id) for chats. this id will be use to fetch chats history a.k.a old chats
             let chatId = socket.userId + '' + user.receiver.userId;
             // find old chats and emit back to user
-            socket.emit('old-chat', userInteface.getOneOnOneChat(chatId));
+            socket.emit('old-chat', await userInteface.getOneOnOneChat(chatId));
 
             const from = { userId: socket.userId, userName: socket.username }
 
-            socket.on('privateChat', (data) => {
+            socket.on('privateChat', async (data) => {
 
                 //add chat to sender chat records
                 chatId = socket.userId + '' + data.receiver.userId;
-                userInteface.addSenOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [{ message: data.message, date: data.date }], []))
+                const storeSenderMessage = await userInteface.addSenOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [{ message: data.message, date: data.date }], []))
 
                 // add chat to receiver chat records 
                 //NOTE: at reciver end the chatId is the receiver Id plus the sender Id
                 chatId = data.receiver.userId + '' + socket.userId;
-                userInteface.addRecOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [], [{ message: data.message, date: data.date }]))
+                const storeReceiverMessage = await userInteface.addRecOneOnOneChats(formater.oneOnoneMessageFormat(chatId, [], [{ message: data.message, date: data.date }]))
                 // emit or send message to reciever 
-                socket.to(data.receiver.userId).emit('privateMessage', formater.privateChatMessageFormat(data.chatId, data.message, data.receiver, from))
+                
+                if(storeReceiverMessage.status===203 && storeSenderMessage.status===203){
+                    return socket.to(data.receiver.userId).emit('privateMessage', formater.privateChatMessageFormat(data.chatId, data.message, data.receiver, from))
+                }else{
+                    return socket.emit('error', new Error({ ChatStorageError: 'oops!! Something went wrong,try again later' })) 
+                }
             })
         })
 
