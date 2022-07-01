@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
 const path = require('path')
 const app = express()
 const server = require('http').createServer(app)
@@ -7,21 +8,23 @@ const { Server } = require('socket.io')
 const bodyParser = require('body-parser')
 const PORT = 5000 || process.env.PORT
 const io = new Server(server)
-//const chatRouter = require('./routes/chatRouters')(io)
 const { chatRouter } = require('./api/chatRouters')
 const { chat } = require('./chats/chat')
 const { StoreSessions } = require('./utils/sessionstore')
 const { User } = require('./utils/user')
 const sessionStore = new StoreSessions()
 const newUser = new User
+//NOTE: change contentSecurityPolicy to true when you are done with the api testing
+app.use(helmet({contentSecurityPolicy: false,}))
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
 //ioModule(io) variables api url  url = ''
-app.use('', chatRouter)
+app.use('/api', chatRouter)
 io.use((socket, next) => {
 
     const userId = socket.handshake.auth.userId;
