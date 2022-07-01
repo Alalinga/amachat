@@ -1,6 +1,6 @@
 
 const loginUser = (req,res)=>{
-    return res.send('login successfuly')
+    return res.send('login successfuly').status(200)
 }
 
 
