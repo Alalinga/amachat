@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
-<title>Amacha App</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="css/chat.css" />
 <link rel="stylesheet" href="css/style.css" />
-
+<title>Amacha App</title>
+</head>
 <body>
   <div class="main-container">
     <header class="chat-header">
@@ -20,7 +22,7 @@
       </div>
       <div class="container">
         <div class="chat-container">
-          <div class="avatar" ><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">Alalinga</p><time>12:12</time></div>
+          <div class="avatar" ><img src="./img/chatImage.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px" id="username">Alalinga</p></div>
           <ol class="chat" id="chat">
 
           </ol>
@@ -39,42 +41,7 @@
     </div>
   </div>
 
-  <!-- <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px; background-color: #d9534f;" id="mySidebar">
-    <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
-    <h3 style="text-align: center;"><i class="fas fa-user"></i> Users</h3>
-    <ul id="users-list">
-      
-    </ul>
-  </div>
-
-  <div class="w3-main" style="margin-left:200px; ">
-    <div class="w3-teal" style="background-color: #d9534f;">
-      
-      <div class="w3-container" >
-        <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
-        <div class="back"><i class="fa fa-chevron-left"></i> <img src="https://i.imgur.com/DY6gND0.png"
-            draggable="false" /></div>
-        <div class="name">Alex</div>
-        <div class="last">18:09</div>
-      </div>
-    </div>
-
-    <div class="w3-container">
-
-      <ol class="chat" id="chat">
-        
-        <div class="day">Hoy</div>
-
-      </ol>
-      <div class="chat-form-container">
-        <form id="form">
-          <input id="input" type="text" placeholder="Enter Message" required autocomplete="off" />
-          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
-      </div>
-    </div>
-
-  </div> -->
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
     integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
