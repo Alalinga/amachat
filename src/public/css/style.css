@@ -54,15 +54,17 @@ a {
 	margin:auto;
 }
 .container {
+	display: flex;
+	flex-direction: column;
 	width: 78%;
 	background: #fff;
-	margin: 5px auto;
+	/* margin: 5px auto; */
 	height: 600px;
 	overflow: hidden;
 }
 
 .chat-container{
-	height: 95%;
+	height: 94%;
 
 }
 .chat-form-container {
