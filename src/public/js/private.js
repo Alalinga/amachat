@@ -5,6 +5,7 @@ const sendButton = document.getElementById('form');
 const input = document.getElementById('input');
 const userList = document.getElementById('users-list');
 const privateChats = document.getElementById('chat');
+const selectedUser = document.getElementById('username')
 let listOfFriends = document.getElementsByClassName('group-list')
 let isUserSelected = false;
 const URL = window.location.origin;
@@ -43,7 +44,7 @@ const displayUsers = (users) => {
 const displayMyChats = (chats) => {
     const list = document.createElement('li');
     list.classList.add('self');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats}</p><time>${getTime()}</time></div>`
+    const chat = ` <div class="avatar"><img src="./img/chatImage.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats}</p><time>${getTime()}</time></div>`
     list.innerHTML = chat
     privateChats.appendChild(list);
     window.scrollTo(0, privateChats.scrollHeight)
@@ -51,7 +52,7 @@ const displayMyChats = (chats) => {
 const displayFriendChats = (chats) => {
     const list = document.createElement('li');
     list.classList.add('other');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats.message}</p><time>${chats.time}</time></div>`
+    const chat = ` <div class="avatar"><img src="./img/chatImage.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats.message}</p><time>${chats.time}</time></div>`
     list.innerHTML = chat
     privateChats.appendChild(list);
     window.scrollTo(0, privateChats.scrollHeight)
@@ -186,6 +187,7 @@ sendButton.addEventListener('submit', (e) => {
 userList.addEventListener('click', (event) => {
     //set the Id of the user on user select
     receiver = {username:event.target.dataset.user,userId: event.target.dataset.id}
+    selectedUser.innerHTML = event.target.dataset.user;
     const sender = {username,userId: localStorage.getItem('userId')}
     socket.emit('selected-user', { sender, receiver })
 

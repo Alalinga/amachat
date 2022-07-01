@@ -41,27 +41,26 @@ const displayMyChats = (chats) => {
 
     const list = document.createElement('li');
     list.classList.add('self');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats}</p><time>${getTime()}</time></div>`
+    const chat = ` <div class="avatar"><img src="./img/chatImage.png" draggable="false" /></div><div class="msg"><p style="color:black;font-weight:bold; font-size:12px">${chats}</p><time>${getTime()}</time></div>`
     list.innerHTML = chat
     chatList.appendChild(list);
     window.scrollTo(0, chatList.scrollHeight)
-    window.scrollTo(0,chatBody.scrollHeight)
 }
 const displayFriendChats = (chats) => {
     console.log(chats)
     const list = document.createElement('li');
     list.classList.add('other');
-    const chat = ` <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div><div class="msg"><p style="color:#d9534f">${chats.user}</p><p style="color:black;font-weight:bold; font-size:12px">${chats.message}</p><time>${chats.time}</time></div>`
+    const chat = ` <div class="avatar"><img src="./img/chatImage.png" draggable="false" /></div><div class="msg"><p style="color:#d9534f">${chats.user}</p><p style="color:black;font-weight:bold; font-size:12px">${chats.message}</p><time>${chats.time}</time></div>`
     list.innerHTML = chat
     chatList.appendChild(list);
     window.scrollTo(0, chatList.scrollHeight)
-    window.scrollTo(0,chatBody.scrollHeight)
 }
 
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     if (input.value) {
+        console.log('okkk',e.target.value)
         //sedning message to server
         socket.emit('sendChat', input.value);
         displayMyChats(input.value)
@@ -86,7 +85,9 @@ socket.on('connection_err', (err) => {
         // do sothing if there is an error relating to user
     }
 })
-
+socket.on('error',(error)=>{
+    console.log('I receive this ',error)
+})
 // socket.on('message',(message)=>{
 //     console.log('We got message',message)
 // })
@@ -101,9 +102,10 @@ socket.on('joinAlert', (message) => {
     displaydisplayGroupMenbers(message.user)
 
 });
-socket.on('joinMembers', (members) => {
-    groupName.innerHTML = members.group
-    displayGroupMenbers(members.users)
+socket.on('joinMembers', (data) => {
+    console.log(data)
+    groupName.innerHTML = data.groupName
+   displayGroupMenbers(data.members)
 
 });
 
@@ -111,7 +113,7 @@ socket.on('joinMembers', (members) => {
 const displayGroupMenbers = (members) => {
     // const id = localStorage.getItem('userId');
     // const u = members.find(user=>user.userId===id);
-    // console.log('Bfore',members)
+    console.log('Bfore',members)
     // if(u!==-1){
     // const newmembers= members.splice(members.indexOf(u),1)
     // console.log('After',newmembers)
