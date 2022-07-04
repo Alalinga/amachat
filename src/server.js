@@ -12,6 +12,7 @@ const { chatRouter } = require('./api/chatRouters')
 const { chat } = require('./chats/chat')
 const { StoreSessions } = require('./utils/sessionstore')
 const { User } = require('./utils/user')
+const { getDate } = require('./utils/date')
 const sessionStore = new StoreSessions()
 const newUser = new User
 //NOTE: change contentSecurityPolicy to true when you are done with the api testing
@@ -21,8 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-
 //ioModule(io) variables api url  url = ''
 app.use('/api', chatRouter)
 io.use((socket, next) => {
