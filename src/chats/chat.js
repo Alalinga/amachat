@@ -50,12 +50,14 @@ function chat(io) {
                 // emit or send all group members to the user
                 const groupUsers =  await userInteface.getGroupUsers(user.group);
                 io.to(user.group).emit('joinMembers', groupUsers.response)
-                
+
                 //When a user send a message in the group
-                socket.on('sendChat', (message) => {
+                socket.on('sendChat', async (message) => {
                     //emit the message sent by anyone to everyone in the group 
                     //NOTE:(for personal clarification)  this emit simply means the server is kind of broadcasting the message sent by a user to anyone connected withen the group
                     if (message && user.username) {
+                        const results = await userInteface.addGroupChats(user.group,formater.messageFormat(user.username, socket.userId, message))
+                        console.log('in chat', results)
                         socket.broadcast.to(user.group).emit('message', formater.messageFormat(user.username, socket.userId, message))
                     }
                 })
