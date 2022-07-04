@@ -1,17 +1,18 @@
 const { getDate } = require('./date');
 
+
+const date = getDate(new Date());
+
 class Formater{
-    constructor(){
-        this.date = getDate();
-    }
     privateChatMessageFormat(chatId,message, to, from) {
+        
         return {
             chatId,
             message,
             to,
             from,
-            date: this.date.date,
-            time: this.date.time
+            date: date.date,
+            time: date.time
         }
     }
     oneOnoneMessageFormat(chatId,myChats,friendChats) {
@@ -23,18 +24,19 @@ class Formater{
     }
 
     messageFormat = (user, id, message) => {
+        console.log('executing message format',date.time)
         return {
             user,
             id,
             message,
-            date: this.date.date,
-            time: this.date.time
+            date: date.date,
+            time: date.time
         }
     }
-    groupChatFormat(groupName,message){
+    groupChatFormat(groupName,chat){
         return{
             groupName,
-            message: this.messageFormat(message.user,message.id,message.message)
+            message: this.messageFormat(chat.user,chat.id,chat.message)
         }
 
     }
