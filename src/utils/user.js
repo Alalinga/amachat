@@ -119,6 +119,7 @@ class User {
     async addGroupChats(groupId,chat){
         try {
             const results = await this.getGroupUsers(groupId);
+            console.log('results ', results)
             if(results.status !== 200) return results
             return results.response.chats.push(chat)
         } catch (error) {
@@ -167,7 +168,7 @@ class User {
         }
     }
     //NOTE: this code should be removed when everything is set
-     getGroupUserstest(group) {
+    getGroupUserstest(group) {
         try {
             console.log("users",this.user);
             const response = this.user.find(user => user.group === group)
