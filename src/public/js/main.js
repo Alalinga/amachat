@@ -96,7 +96,6 @@ socket.on('message', (msg) => {
 
 });
 
-
 socket.on('joinAlert', (message) => {
     // alert(message.user+' '+message.message)
     displaydisplayGroupMenbers(message.user)
